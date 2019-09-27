@@ -3,20 +3,25 @@ package guru.springframework.bootstrap;
 // Created for Lecture 108
 // This is a Component that implements the ApplicationListener and taps into the ContextRefreshEvent to
 // run when the system initializes.
+// Lecture 118 - Add Bootstrap @Slf4j and use it.
+// Lecture 201 - Set URL, servings and Source for guacamole recipe
 
 import guru.springframework.domain.*;
 import guru.springframework.repositories.CategoryRepository;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Component
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -33,7 +38,9 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     // We only need to save recipes, due to our cascade type of ALL, notes and ingredieants will be saved by
     // Hibernate
     @Override
+    @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
+        log.debug("Loading Bootstrap Data");
         recipeRepository.saveAll(getRecipes());
     }
 
@@ -104,12 +111,20 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 
         // Create and save recipes
 
+        log.debug("*********************** About to create guac recipe");
+
         // Perfect Guacamole
         Recipe guacRecipe = new Recipe();
         guacRecipe.setDescription("Perfect Guacamole");
         guacRecipe.setPrepTime(10);
-        guacRecipe.setCookTime(0);
+        guacRecipe.setCookTime(5);
+        guacRecipe.setUrl("www.simplyrecipes.com/recipes/perfect_guacamole");
+        guacRecipe.setServings(5);
+        guacRecipe.setSource("Simply Recipes");
         guacRecipe.setDifficulty(Difficulty.EASY);
+
+        //System.out.println("***************************  Guac URL is " + guacRecipe.getUrl());
+
         guacRecipe.setDirections("1 Cut avocado, remove flesh: Cut the avocados in half. Remove seed. Score the inside of the avocado with a blunt knife and scoop out the flesh with a spoon" +
                         "\n" +
                         "2 Mash with a fork: Using a fork, roughly mash the avocado. (Don't overdo it! The guacamole should be a little chunky.)" +

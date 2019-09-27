@@ -3,11 +3,17 @@ package guru.springframework.domain;
 // Created lecture 98
 // Lecture 98 Set up inverse side of relationship to Recipe
 // Lecture 101 Add UnitOfMeasure
-// Lecture 109
+// Lecture 118 Refactor for Lombok, add @Data removed getters/setters,
+// Lecture 119 exclude recipe from hashCode and equals
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
+@Data
+@EqualsAndHashCode(exclude = {"recipe"})
 @Entity
 public class Ingredient {
 
@@ -43,46 +49,6 @@ public class Ingredient {
         this.amount = amount;
         this.uom = uom;
         this.recipe = recipe;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public Recipe getRecipe() {
-        return recipe;
-    }
-
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
-    }
-
-    public UnitOfMeasure getUom() {
-        return uom;
-    }
-
-    public void setUom(UnitOfMeasure uom) {
-        this.uom = uom;
     }
 
 }

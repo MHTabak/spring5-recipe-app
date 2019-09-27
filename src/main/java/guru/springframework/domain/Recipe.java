@@ -5,13 +5,17 @@ package guru.springframework.domain;
 // Lecture 109 Modify the setNotes() method to add this Recipe to the notes passed in
 //         and add method addIngredient()
 // Lecture 115 - refactored to use Lombok. Removed all getters and setters except
-//         setNotes() and addIngredient(). Add @Data to file
+//         setNotes() and addIngredient(). Add @Data to file. Remove constructor that
+//         created empty categories collection
+// Lecture 119 removed unnecessary (fetch=FetchType.EAGER) from categories attribute
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 import lombok.Data;
+
+import static javax.persistence.FetchType.EAGER;
 
 @Data
 @Entity
